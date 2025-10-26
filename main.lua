@@ -6088,7 +6088,7 @@ end
 end
 
 am.Tabs={}
-print("[Dropdown Refresh] Item lama dibersihkan. Membuat item baru dari:", at) -- Tambahkan ini
+print("[Dropdown Refresh] Item lama dibersihkan. Membuat item baru dari:", at)
 
 if am.SearchBarEnabled then
 if not ar then
@@ -6135,12 +6135,6 @@ ay.UIElements.TabIcon=az
 end
 ay.UIElements.TabItem=ai.NewRoundFrame(an.MenuCorner-an.MenuPadding,"Squircle",{
 Size=UDim2.new(1,0,0,36),
-
-if ay.UIElements.TabItem and ay.UIElements.TabItem.Parent then
-print("[Dropdown Refresh] Item", ay.Name, "berhasil dibuat dan diparentkan ke ScrollingFrame.") -- Tambahkan ini
-else
-warn("[Dropdown Refresh] GAGAL membuat atau memparentkan item:", ay.Name) -- Tambahkan ini
-end
 
 ImageTransparency=1,
 Parent=am.UIElements.Menu.Frame.ScrollingFrame,
