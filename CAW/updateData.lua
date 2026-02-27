@@ -15,10 +15,12 @@ function GatherInventoryData()
 end
 
 function UpdateApiData(myBot, PlayTime)
+    print("API - 1")
     local HttpService = game:GetService("HttpService")
     local player = game:GetService("Players").LocalPlayer
     local requestFunc = http_request or request or (syn and syn.request) or (fluxus and fluxus.request)
-    
+
+    print("API - 2")
     if not requestFunc then
         warn("Error: Fungsi http request tidak ditemukan pada Executor ini.")
         return
@@ -26,6 +28,12 @@ function UpdateApiData(myBot, PlayTime)
     if not player then return end
 
     local inventoryData = GatherInventoryData()
+    print("API - 3")
+
+    print(myBot.farmWorld)
+    print(myBot.storageWorld)
+    print(myBot.lastUpdate)
+    print(PlayTime)
 
     local payload = {
         username = player.Name,
