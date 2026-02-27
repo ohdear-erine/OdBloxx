@@ -27,17 +27,9 @@ function UpdateApiData(myBot, PlayTime)
         warn("Error: Fungsi http request tidak ditemukan pada Executor ini.")
         return
     end
-    print("B")
     if not player then return end
-    print("C")
 
     local inventoryData = GatherInventoryData()
-    print("API - 3")
-
-    print(myBot.farmWorld)
-    print(myBot.storageWorld)
-    print(myBot.lastUpdate)
-    print(PlayTime)
 
     local payload = {
         username = player.Name,
@@ -65,9 +57,7 @@ function UpdateApiData(myBot, PlayTime)
     local success, response = pcall(function() return requestFunc(requestData) end)
     
     if success and response then
-        if response.StatusCode == 200 then
-            print("Berhasil sinkronisasi data ke API!")
-        else
+        if response.StatusCode ~= 200 then
             warn("Gagal kirim data! Status: " .. tostring(response.StatusCode) .. " | Body: " .. tostring(response.Body))
         end
     else
