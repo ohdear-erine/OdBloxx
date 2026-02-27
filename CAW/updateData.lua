@@ -1,30 +1,39 @@
 function GatherInventoryData()
-
     local ReplicatedStorage = game:GetService("ReplicatedStorage")
     local Managers = ReplicatedStorage:WaitForChild("Managers")
     local ItemsManager = require(Managers:WaitForChild("ItemsManager"))
     local InventoryModule = require(ReplicatedStorage:WaitForChild("Modules"):WaitForChild("Inventory"))
     
-    local inventoryList = {}
+    local summaryMap = {}
     local stacks = InventoryModule.Stacks or {}
     
     for _, data in pairs(stacks) do
         if type(data) == "table" and data.Id and (data.Amount or 0) > 0 then
             local idItem = tostring(data.Id)
-            local iconAssetId = "rbxassetid://0"
             
-            pcall(function()
-                if ItemsManager.ItemsData and ItemsManager.ItemsData[idItem] then
-                    iconAssetId = "rbxassetid://" .. tostring(ItemsManager.ItemsData[idItem].Icon or "0")
-                end
-            end)
-            
-            table.insert(inventoryList, {
-                name = idItem,
-                qty = data.Amount,
-                iconId = iconAssetId
-            })
+            if summaryMap[idItem] then
+                summaryMap[idItem].qty = summaryMap[idItem].qty + data.Amount
+            else
+                local iconAssetId = "rbxassetid://0"
+                
+                pcall(function()
+                    if ItemsManager.ItemsData and ItemsManager.ItemsData[idItem] then
+                        iconAssetId = "rbxassetid://" .. tostring(ItemsManager.ItemsData[idItem].Icon or "0")
+                    end
+                end)
+                
+                summaryMap[idItem] = {
+                    name = idItem,
+                    qty = data.Amount,
+                    iconId = iconAssetId
+                }
+            end
         end
+    end
+    
+    local inventoryList = {}
+    for _, itemData in pairs(summaryMap) do
+        table.insert(inventoryList, itemData)
     end
     
     return inventoryList
