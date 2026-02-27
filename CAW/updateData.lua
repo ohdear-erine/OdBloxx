@@ -1,6 +1,8 @@
 function GatherInventoryData()
 
     local ReplicatedStorage = game:GetService("ReplicatedStorage")
+    local Managers = ReplicatedStorage:WaitForChild("Managers")
+    local ItemsManager = require(Managers:WaitForChild("ItemsManager"))
     local InventoryModule = require(ReplicatedStorage:WaitForChild("Modules"):WaitForChild("Inventory"))
     
     local inventoryList = {}
@@ -8,9 +10,19 @@ function GatherInventoryData()
     
     for _, data in pairs(stacks) do
         if type(data) == "table" and data.Id and (data.Amount or 0) > 0 then
+            local idItem = tostring(data.Id)
+            local iconAssetId = "0"
+            
+            pcall(function()
+                if ItemsManager.ItemsData and ItemsManager.ItemsData[idItem] then
+                    iconAssetId = tostring(ItemsManager.ItemsData[idItem].Icon or "0")
+                end
+            end)
+            
             table.insert(inventoryList, {
-                name = tostring(data.Id),
-                qty = data.Amount
+                name = idItem,
+                qty = data.Amount,
+                iconId = iconAssetId
             })
         end
     end
