@@ -11,11 +11,11 @@ function GatherInventoryData()
     for _, data in pairs(stacks) do
         if type(data) == "table" and data.Id and (data.Amount or 0) > 0 then
             local idItem = tostring(data.Id)
-            local iconAssetId = "0"
+            local iconAssetId = "rbxassetid://0"
             
             pcall(function()
                 if ItemsManager.ItemsData and ItemsManager.ItemsData[idItem] then
-                    iconAssetId = tostring(ItemsManager.ItemsData[idItem].Icon or "0")
+                    iconAssetId = "rbxassetid://" .. tostring(ItemsManager.ItemsData[idItem].Icon or "0")
                 end
             end)
             
