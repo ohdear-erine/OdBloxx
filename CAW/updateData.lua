@@ -1,4 +1,8 @@
 function GatherInventoryData()
+
+    local ReplicatedStorage = game:GetService("ReplicatedStorage")
+    local InventoryModule = require(ReplicatedStorage:WaitForChild("Modules"):WaitForChild("Inventory"))
+    
     local inventoryList = {}
     local stacks = InventoryModule.Stacks or {}
     
@@ -15,17 +19,17 @@ function GatherInventoryData()
 end
 
 function UpdateApiData(myBot, PlayTime)
-    print("API - 1")
     local HttpService = game:GetService("HttpService")
     local player = game:GetService("Players").LocalPlayer
     local requestFunc = http_request or request or (syn and syn.request) or (fluxus and fluxus.request)
 
-    print("API - 2")
     if not requestFunc then
         warn("Error: Fungsi http request tidak ditemukan pada Executor ini.")
         return
     end
+    print("B")
     if not player then return end
+    print("C")
 
     local inventoryData = GatherInventoryData()
     print("API - 3")
