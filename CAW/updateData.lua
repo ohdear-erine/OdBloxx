@@ -81,6 +81,7 @@ function UpdateApiData(myBot, PlayTime)
         userId = player.UserId,
         farmWorld = myBot.farmWorld or "-",
         storageWorld = myBot.storageWorld or "-",
+        gems = myBot.gems,
         playtime = PlayTime,
         lastUpdate = myBot.lastUpdate,
         inventory = inventoryData,
