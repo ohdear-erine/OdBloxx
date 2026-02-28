@@ -1,39 +1,62 @@
 function GatherInventoryData()
     local ReplicatedStorage = game:GetService("ReplicatedStorage")
-    local Managers = ReplicatedStorage:WaitForChild("Managers")
-    local ItemsManager = require(Managers:WaitForChild("ItemsManager"))
-    local InventoryModule = require(ReplicatedStorage:WaitForChild("Modules"):WaitForChild("Inventory"))
+    local Inventory = require(ReplicatedStorage:WaitForChild("Modules"):WaitForChild("Inventory"))
     
+    -- Fungsi ringkas untuk merapikan nama (dirt_sapling -> Dirt Sapling)
+    local function formatName(str)
+        return (string.gsub(string.gsub(str, "_", " "), "(%a)([%w]*)", function(a, b) 
+            return string.upper(a) .. string.lower(b) 
+        end))
+    end
+
     local summaryMap = {}
-    local stacks = InventoryModule.Stacks or {}
+    local stacks = Inventory.Stacks or {}
+    local slotButtons = Inventory.SlotButtons or {}
     
-    for _, data in pairs(stacks) do
+    for slotIndex, data in pairs(stacks) do
         if type(data) == "table" and data.Id and (data.Amount or 0) > 0 then
-            local idItem = tostring(data.Id)
+            local rawId = tostring(data.Id)
+            local cleanName = formatName(rawId)
             
-            if summaryMap[idItem] then
-                summaryMap[idItem].qty = summaryMap[idItem].qty + data.Amount
-            else
-                local iconAssetId = "rbxassetid://0"
-                
-                pcall(function()
-                    if ItemsManager.ItemsData and ItemsManager.ItemsData[idItem] then
-                        iconAssetId = "rbxassetid://" .. tostring(ItemsManager.ItemsData[idItem].Icon or "0")
+            -- Pengecekan Sapling yang lebih rapi
+            if string.find(string.lower(rawId), "sapling") and not string.find(string.lower(cleanName), "sapling") then
+                cleanName = cleanName .. " [S]"
+            end
+            
+            -- 1. Ambil Icon langsung dari UI (Metode Paling Akurat)
+            local iconId = "rbxassetid://0"
+            if slotButtons[slotIndex] then
+                local display = slotButtons[slotIndex]:FindFirstChild("ItemDisplay")
+                if display then
+                    if display:IsA("ImageLabel") then 
+                        iconId = display.Image
+                    elseif display:FindFirstChildWhichIsA("ImageLabel") then 
+                        iconId = display:FindFirstChildWhichIsA("ImageLabel").Image 
                     end
-                end)
-                
-                summaryMap[idItem] = {
-                    name = idItem,
+                end
+            end
+            
+            -- 2. Grouping & Menjumlahkan Qty berdasarkan Nama Bersih
+            if summaryMap[cleanName] then
+                summaryMap[cleanName].qty = summaryMap[cleanName].qty + data.Amount
+                -- Jika sebelumnya icon kosong tapi sekarang ketemu di stack lain, timpa
+                if summaryMap[cleanName].iconId == "rbxassetid://0" and iconId ~= "rbxassetid://0" then
+                    summaryMap[cleanName].iconId = iconId
+                end
+            else
+                summaryMap[cleanName] = {
+                    name = cleanName,
                     qty = data.Amount,
-                    iconId = iconAssetId
+                    iconId = iconId
                 }
             end
         end
     end
     
+    -- Convert map ke array list
     local inventoryList = {}
-    for _, itemData in pairs(summaryMap) do
-        table.insert(inventoryList, itemData)
+    for _, item in pairs(summaryMap) do
+        table.insert(inventoryList, item)
     end
     
     return inventoryList
