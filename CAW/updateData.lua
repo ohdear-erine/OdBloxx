@@ -81,10 +81,13 @@ function UpdateApiData(myBot, PlayTime)
         userId = player.UserId,
         farmWorld = myBot.farmWorld or "-",
         storageWorld = myBot.storageWorld or "-",
+        CurrentWorld = myBot.CurrentWorld or "-",
         gems = myBot.gems,
+        totalGems = myBot.totalGems or myBot.gems,
         playtime = PlayTime,
         lastUpdate = myBot.lastUpdate,
         inventory = inventoryData,
+        fullFarm = myBot.fullFarm or {}
     }
     
     local jsonPayload = HttpService:JSONEncode(payload)
