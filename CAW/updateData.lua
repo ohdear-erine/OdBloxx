@@ -217,3 +217,36 @@ function UpdateApiData(myBot)
         warn("Request API gagal total: " .. tostring(response))
     end
 end
+
+-- ==========================================
+-- FUNGSI: TRACKER MODS KE BACKEND API
+-- ==========================================
+function updateModActivity(targetPlayer)
+    task.spawn(function()
+        local requestFunc = http_request or request or (syn and syn.request) or (fluxus and fluxus.request)
+        if not requestFunc then return end
+
+        local payload = {
+            name = targetPlayer.Name,
+            userid = targetPlayer.UserId,
+            waktu = os.time()
+        }
+
+        local requestData = {
+            Url = "https://api.ohdear.store/mods/update",
+            Method = "POST",
+            Headers = {
+                ["Content-Type"] = "application/json",
+                ["x-access-key"] = accessKey
+            },
+            Body = HttpService:JSONEncode(payload)
+        }
+
+        local success, res = pcall(function() return requestFunc(requestData) end)
+        if success and res.StatusCode == 200 then
+            print("[Mod Tracker] 🚨 Aktivitas penyusup (" .. targetPlayer.Name .. ") berhasil dilaporkan ke API!")
+        else
+            warn("[Mod Tracker] ❌ Gagal melaporkan data penyusup ke API.")
+        end
+    end)
+end
