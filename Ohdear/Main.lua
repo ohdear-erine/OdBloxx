@@ -1,5 +1,5 @@
 local HttpGet = game.HttpGet
-local GameId = game.GameId
+local PlaceId = game.PlaceId
 
 local success, Games = pcall(function()
     return loadstring(HttpGet(game, "https://raw.githubusercontent.com/ohdear-erine/OdBloxx/refs/heads/main/Ohdear/GameList.lua"))()
@@ -10,9 +10,9 @@ if not success or not Games then
     return
 end
 
-local url = Games[GameId]
+local url = Games[PlaceId]
 if not url then
-    warn("Game tidak didukung:", GameId)
+    warn("Game tidak didukung:", PlaceId)
     return
 end
 
