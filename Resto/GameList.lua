@@ -5,6 +5,7 @@ local Games = {
   [107646426076756] = "https://raw.githubusercontent.com/ohdear-erine/OdBloxx/refs/heads/main/Resto/RingFarm.lua",
   [101736964164901] = "https://raw.githubusercontent.com/ohdear-erine/OdBloxx/refs/heads/main/Resto/warnet.lua",
   [97598239454123] = "https://raw.githubusercontent.com/ohdear-erine/OdBloxx/refs/heads/main/Resto/gag2.lua",
+  [77085202503540] = "https://raw.githubusercontent.com/ohdear-erine/OdBloxx/refs/heads/main/Resto/gag2.lua",
 }
 
 return Games
