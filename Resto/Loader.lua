@@ -10,9 +10,22 @@ if not success or not Games then
     return
 end
 
-local url = Games[PlaceId]
-if not url then
+local data = Games[PlaceId]
+if not data then
     warn("Game tidak didukung:", PlaceId)
+    return
+end
+
+local url
+
+if type(data) == "table" then
+    url = data[getgenv().od or 1]
+else
+    url = data
+end
+
+if not url then
+    warn("Script tidak ditemukan")
     return
 end
 
