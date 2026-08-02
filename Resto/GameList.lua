@@ -27,6 +27,14 @@ local Games = {
   [133438856880402] = {
     [1] = "https://raw.githubusercontent.com/ohdear-erine/OdBloxx/refs/heads/main/Resto/gags2.lua",
     [2] = "https://raw.githubusercontent.com/ohdear-erine/OdBloxx/refs/heads/main/Resto/rbgag2.lua"
+  },
+  [129343810645058] = {
+    [1] = "https://raw.githubusercontent.com/ohdear-erine/OdBloxx/refs/heads/main/Resto/gags2.lua",
+    [2] = "https://raw.githubusercontent.com/ohdear-erine/OdBloxx/refs/heads/main/Resto/rbgag2.lua"
+  },
+  [137395689498699] = {
+    [1] = "https://raw.githubusercontent.com/ohdear-erine/OdBloxx/refs/heads/main/Resto/gags2.lua",
+    [2] = "https://raw.githubusercontent.com/ohdear-erine/OdBloxx/refs/heads/main/Resto/rbgag2.lua"
   }
 }
 
